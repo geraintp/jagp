@@ -17,6 +17,8 @@ define( 'JAGP__PLUGIN_DIR',         plugin_dir_path( __FILE__ ) );
 define( 'JAGP__PLUGIN_FILE',        __FILE__ );
 
 require_once( JAGP__PLUGIN_DIR . 'class.jagp.php' );
+require_once( JAGP__PLUGIN_DIR . 'class.utils.php' );
+require_once( JAGP__PLUGIN_DIR . 'class.fgallery.php' );
 
 if ( is_admin() ) {
 	//require_once( JAGP__PLUGIN_DIR . 'class.jagp-admin.php'     );

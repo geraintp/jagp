@@ -7,7 +7,7 @@ class Jagp
 {
 	/**
 	 * Holds the singleton instance of this class
-	 * @since 2.3.3
+	 * @since 0.0.1
 	 * @var Jagp
 	 */
 	static $instance = false;
