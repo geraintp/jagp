@@ -10,15 +10,19 @@
  * Text Domain: jagp
  * Domain Path: /languages/
  */
+defined( 'ABSPATH' ) or die( 'not found' );
 
 define( 'JAGP__MINIMUM_WP_VERSION', '4.0' );
 define( 'JAGP__VERSION',            '0.0.1' );
 define( 'JAGP__PLUGIN_DIR',         plugin_dir_path( __FILE__ ) );
 define( 'JAGP__PLUGIN_FILE',        __FILE__ );
 
-require_once( JAGP__PLUGIN_DIR . 'class.jagp.php' );
 require_once( JAGP__PLUGIN_DIR . 'class.utils.php' );
-require_once( JAGP__PLUGIN_DIR . 'class.fgallery.php' );
+require_once( JAGP__PLUGIN_DIR . 'class.options.php' );
+jagap_utils::define('DS', DIRECTORY_SEPARATOR );
+
+require_once( JAGP__PLUGIN_DIR . 'class.jagp.php' );
+require_once( JAGP__PLUGIN_DIR . 'controllers' . DS . 'class.fgallery.php' );
 
 if ( is_admin() ) {
 	//require_once( JAGP__PLUGIN_DIR . 'class.jagp-admin.php'     );

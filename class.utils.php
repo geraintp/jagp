@@ -1,4 +1,4 @@
-<?php 
+<?php defined( 'ABSPATH' ) or die( 'not found' );
 /**
  * Utility (toolbelt) Class 
  */

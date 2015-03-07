@@ -1,4 +1,4 @@
-<?php 
+<?php defined( 'ABSPATH' ) or die( 'not found' );
 /**
 * 	GalleryController Registers Gallery Content Type and Shortcodes
 */
@@ -9,7 +9,7 @@ class JAGP_GalleryController
 	 * @since 0.0.1
 	 * @var Jagp
 	 */
-	static $instance = false;
+	private static $_instance = false;
 
 	/**
 	 * Singleton
@@ -17,10 +17,10 @@ class JAGP_GalleryController
 	 */
 	public static function init()
 	{
-		if ( ! self::$instance )
-			self::$instance = new Jagp_FGallery;
+		if ( ! self::$_instance )
+			self::$_instance = new Jagp_FGallery;
 
-		return self::$instance;
+		return self::$_instance;
 	}
 
 	/**
@@ -43,7 +43,7 @@ class JAGP_GalleryController
 	 **/
 	private function constants()
 	{		
-		jagp_utils::define('JAGP_GALLERY_POST_TYPE_ID', do_filter( 'jagp_gallery_post_id', 'jagpgallery' ) );
+		jagp_utils::define('JAGP_GALLERY_POST_TYPE_ID', apply_filters( 'jagp_gallery_post_id', 'jagpgallery' ) );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class JAGP_GalleryController
 		// Register Portfolio post type
 		register_post_type (
 			JAGP_GALLERY_POST_TYPE_ID,
-			apply_filters( 'jagp_gallery_register_post_type',
+			apply_filters( 'jagp_filter_gallery_register_post_type',
 				array (
 					'labels'            => $labels,
 					'rewrite'           => $rewrite,
