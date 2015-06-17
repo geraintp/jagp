@@ -19,7 +19,7 @@ define( 'JAGP__PLUGIN_FILE',        __FILE__ );
 
 require_once( JAGP__PLUGIN_DIR . 'class.utils.php' );
 require_once( JAGP__PLUGIN_DIR . 'class.options.php' );
-jagap_utils::define('DS', DIRECTORY_SEPARATOR );
+jagp_utils::define('DS', DIRECTORY_SEPARATOR );
 
 require_once( JAGP__PLUGIN_DIR . 'class.jagp.php' );
 require_once( JAGP__PLUGIN_DIR . 'controllers' . DS . 'class.fgallery.php' );
