@@ -18,9 +18,20 @@ class JAGP_GalleryController
 	public static function init()
 	{
 		if ( ! self::$_instance )
-			self::$_instance = new Jagp_FGallery;
+			self::$_instance = new JAGP_GalleryController;
 
 		return self::$_instance;
+	}
+
+	/**
+	 * shorthand to get controller instance.
+	 *
+	 * @return object
+	 * @static
+	 **/
+	public static function fetch()
+	{
+		return self::init();
 	}
 
 	/**
@@ -33,6 +44,9 @@ class JAGP_GalleryController
 	{
 		$this->constants();
 		$this->register_post_type();
+
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+		add_action( 'save_post', array( $this, 'save_meta_box' ) );
 	}
 
 	/**
@@ -55,20 +69,21 @@ class JAGP_GalleryController
 	private function register_post_type()
 	{
 		// Portfolio post type labels
-		$labels = array (
-			'name'                  => __( 'Galleries', 'jagp' ),
-			'singular_name'         => __( 'Gallery', 'jagp' ),
-			'add_new'               => __( 'Add New', 'jagp' ),
-			'add_new_item'          => __( 'Create New Gallery', 'jagp' ),
-			'edit'                  => __( 'Edit', 'jagp' ),
-			'edit_item'             => __( 'Edit Gallery', 'jagp' ),
-			'new_item'              => __( 'New Gallery', 'jagp' ),
-			'view'                  => __( 'View Gallery', 'jagp' ),
-			'view_item'             => __( 'View Gallery', 'jagp' ),
-			'search_items'          => __( 'Search Gallerys', 'jagp' ),
-			'not_found'             => __( 'No Gallery found', 'jagp' ),
-			'not_found_in_trash'    => __( 'No Galleries found in Trash', 'jagp' ),
-			'parent_item_colon'     => __( 'Gallery:', 'jagp' )
+		$labels = array(
+			'name'               => _x( 'Galleries', 'post type general name', 'jagp' ),
+			'singular_name'      => _x( 'Gallery', 'post type singular name', 'jagp' ),
+			'menu_name'          => _x( 'Galleries', 'admin menu', 'jagp' ),
+			'name_admin_bar'     => _x( 'Gallery', 'add new on admin bar', 'jagp' ),
+			'add_new'            => _x( 'Add New', 'book', 'jagp' ),
+			'add_new_item'       => __( 'Add New Gallery', 'jagp' ),
+			'new_item'           => __( 'New Gallery', 'jagp' ),
+			'edit_item'          => __( 'Edit Gallery', 'jagp' ),
+			'view_item'          => __( 'View Gallery', 'jagp' ),
+			'all_items'          => __( 'All Galleries', 'jagp' ),
+			'search_items'       => __( 'Search Galleries', 'jagp' ),
+			'parent_item_colon'  => __( 'Parent Galleries:', 'jagp' ),
+			'not_found'          => __( 'No books found.', 'jagp' ),
+			'not_found_in_trash' => __( 'No books found in Trash.', 'jagp' )
 		);
 
 		// Portfolio post type rewrite
@@ -78,34 +93,79 @@ class JAGP_GalleryController
 		);
 
 		// Portfolio post type supports
-		$supports = array (
-			'title',
-			'editor',
-			'thumbnail',
+		$supports = array(
+			'title', 
+			'editor', 
+			'author', 
+			'thumbnail', 
+			'excerpt', 
+			'comments',
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => $rewrite,
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => 100,
+			'supports'           => $supports,
+			'menu_icon'   		 => 'dashicons-schedule',
 		);
 		
 		// Register Portfolio post type
-		register_post_type (
-			JAGP_GALLERY_POST_TYPE_ID,
-			apply_filters( 'jagp_filter_gallery_register_post_type',
-				array (
-					'labels'            => $labels,
-					'rewrite'           => $rewrite,
-					'supports'          => $supports,
-					'menu_position'     => '100',
-					'public'            => true,
-					'show_ui'           => true,
-					'can_export'        => true,
-					'capability_type'   => 'post',
-					'hierarchical'      => false,
-					'query_var'         => true,
-					'menu_icon'         => get_bloginfo('wpurl').'/wp-admin/images/media-button-image.gif'
-				)
-			)
-		);
-		
-		do_action ( 'jagp_gallery_register_post_type' );
+		register_post_type ( JAGP_GALLERY_POST_TYPE_ID, apply_filters( 'jagp_filter_gallery_register_post_type', $args) );
+
+		do_action( 'jagp_gallery_register_post_type' );
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function add_meta_box( $post_type )
+	{
+		$post_types = array('post', 'page', JAGP_GALLERY_POST_TYPE_ID );     //limit meta box to certain post types
+        
+        if ( in_array( $post_type, $post_types )) {
+			add_meta_box(
+				'some_meta_box_name',
+				__( 'Some Meta Box Headline', 'jagp' ),
+				array( $this, 'render_meta_box_content' ),
+				$post_type,
+				'advanced',
+				'high',
+			);
+        }
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function render_meta_box_content( $post )
+	{
+		# code...
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function save_meta_box( $post_id )
+	{
+		# code...
+	}
 }
 ?>

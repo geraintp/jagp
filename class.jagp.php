@@ -39,7 +39,7 @@ class Jagp
 	 **/
 	private function Jagp()
 	{
-		# code...
+		JAGP_GalleryController::init();
 	}
 
 	/**
@@ -91,6 +91,7 @@ class Jagp
 	 **/
 	public static function load_modules()
 	{
+		
 	}
 }
 
